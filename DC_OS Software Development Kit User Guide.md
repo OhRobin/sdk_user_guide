@@ -64,7 +64,7 @@ We recommend developing in a cloud environment, rather than a local environment.
 
         1. Note: You can't recover the secret if you lose it. But you can create a new access key pair if you need to
 
-        2. Do not share your secret key (the long one) with anyone. It is a secret ![image alt text](image_0.png).
+        2. Do not share your secret key (the long one) with anyone. It is a secret ![image alt text](images/image_0.png).
 
     10. Create the directory ~/.ssh
 
@@ -98,10 +98,7 @@ $ dcos config set core.dcos_url [url]
 ```
   Where url is the url of the DCOS UI page up until ….awsamazon.com/
       4. Run
-      
-[Bo]
- 
-[Begin] A little bit messy here, may need to adjust
+
 ```
 $ dcos config set core.ssl_verify false
 ```
@@ -110,7 +107,6 @@ $ dcos config set core.ssl_verify false
 	$ dcos auth login
 ```
     5. With username: bootstrapuser and password: deleteme
-[End]
 
 5. [Set up your S3 bucket](http://docs.aws.amazon.com/AmazonS3/latest/gsg/CreatingABucket.html)
 
@@ -152,7 +148,7 @@ dcos package install --yes <framework name>
 
 ## Adding Config Files
 
-![Config Files](config.png)
+![Config Files](images/config.png)
 
 1. Add a `tasks:<task-name>:configs:` field as pictured above.
 
@@ -170,7 +166,7 @@ dcos package install --yes <framework name>
 
 In order for a framework to be Mesosphere certified and enroll in the Beta program, they must meet a baseline level of service requirements. These requirements are best practices that allow for our partners to easily maintain the frameworks. Community driven frameworks that do not meet these beta requirements may be on the Universe, but will not be certified and is not recommended for use in a production environment.
 
-![Beta Service Requirements](beta-service-requirements.png)
+![Beta Service Requirements](images/beta-service-requirements.png)
 
 ## Adding Features
 
@@ -553,13 +549,13 @@ docker run --rm \
 
 ```
 
-The basic usage of this script is the same as using the aws-cli just change the command `aws [command]` to `./aws.sh [command]`. 
+The basic usage of this script is the same as using the aws-cli just change the command `aws [command]` to `./aws.sh [command]`.
 
 ##### Example: CockroachDB
 
 In the CockroachDB example, we’d like to backup specific database at a given point. We choose to upload the backup data to Amazon S3 and restore from it once necessary.
 
-The backup and restore plan are as follows in `svc.yml`. In our case, as we only need to run backup/restore on one node, so the `strategy` 
+The backup and restore plan are as follows in `svc.yml`. In our case, as we only need to run backup/restore on one node, so the `strategy`
 of all these two plans are `serial`. You may want to choose your own `strategy` based on specific backup/restore mechanism in your system.
 
 ```
