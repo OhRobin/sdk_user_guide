@@ -1,5 +1,4 @@
-User Guide: DC/OS Software Development Kit
-
+# User Guide: DC/OS Software Development Kit
 
 [[TOC]]
 
