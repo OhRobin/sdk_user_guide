@@ -28,13 +28,13 @@ We recommend developing in a cloud environment, rather than a local environment.
 
     1. Create a file called *aws-key.pem* with format:
 
-      aws_access_key_id = XXX
+          Aws_access_key_id = XXX
 
-      Aws_secret_access_key = XXX
+          Aws_secret_access_key = XXX
 
     2. Add ssh-add aws-key.pem your bash profile so it runs every time you start up
 
-5. Install DC/OS [Command Line Interface (CLI)] and point it to your cluster(https://dcos.io/docs/1.9/cli/install/)
+5. Install DC/OS [Command Line Interface (CLI)](https://dcos.io/docs/1.9/cli/install/) and point it to your cluster
 
 6. Set up your [S3 bucket](http://docs.aws.amazon.com/AmazonS3/latest/gsg/CreatingABucket.html)
 
@@ -48,6 +48,10 @@ Please refer to the [quick start](https://github.com/mesosphere/dcos-commons#qui
 These steps will help you get a template framework built, installed, and running on your DCOS cluster. Once you have your framework running, you can customize it as necessary.
 
 1. Clone [dcos-commons](https://github.com/mesosphere/dcos-commons/)
+
+```
+git clone https://github.com/mesosphere/dcos-commons/
+```
 
 2. Run `./new-framework.sh frameworks/<framework-name>`.
 
