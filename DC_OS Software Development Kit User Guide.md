@@ -26,7 +26,7 @@ We recommend developing in a cloud environment, rather than a local environment.
 
 1. Get & add [AWS credentials](http://docs.aws.amazon.com/sdk-for-java/v1/developer-guide/credentials.html)
 
-    1. Create a file called *aws-key.pem* with format:
+    1. Create a file called *aws-key.pem* with the format:
 
           Aws_access_key_id = XXX
 
@@ -36,7 +36,7 @@ We recommend developing in a cloud environment, rather than a local environment.
 
 5. Install DC/OS [Command Line Interface (CLI)](https://dcos.io/docs/1.9/cli/install/) and point it to your cluster
 
-6. Set up your [S3 bucket](http://docs.aws.amazon.com/AmazonS3/latest/gsg/CreatingABucket.html)
+6. Set up your AWS [S3 bucket](http://docs.aws.amazon.com/AmazonS3/latest/gsg/CreatingABucket.html)
 
 
 ### Local Development Environment
@@ -53,7 +53,11 @@ These steps will help you get a template framework built, installed, and running
 git clone https://github.com/mesosphere/dcos-commons/
 ```
 
-2. Run `./new-framework.sh frameworks/<framework-name>`.
+2. Run
+
+```
+./new-framework.sh frameworks/<framework-name>
+```
 
 3. Open up and read through `frameworks/<framework-name>/src/main/dist/svc.yml` and `frameworks/<framework-name>/universe/marathon.json.mustache`. These files will be where you need to do most of your work. Reference the [YAML guide](https://mesosphere.github.io/dcos-commons/yaml-reference.html) to understand `svc.yml` and the [Marathon docs](https://mesosphere.github.io/marathon/docs/) to understand `marathon.json.mustache`.
 
