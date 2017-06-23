@@ -23,7 +23,7 @@ After going through these steps, you should have a basic understanding of the SD
 
 We recommend developing in a cloud environment, rather than a local environment. The SDK is currently in alpha stage, and support for local dev environment is in active development. The local development environment using vagrant box is a good way to get started `hello-world` and `kafka` tutorials, but will not be comprehensive in mimicking production environment.
 
-## AWS Development (External Developers)
+## AWS Development
 
 1. Get & add [AWS credentials](http://docs.aws.amazon.com/sdk-for-java/v1/developer-guide/credentials.html)
 
@@ -39,80 +39,6 @@ We recommend developing in a cloud environment, rather than a local environment.
 
 6. Set up your [S3 bucket](http://docs.aws.amazon.com/AmazonS3/latest/gsg/CreatingABucket.html)
 
-
-## AWS Development (for Mesosphere Internal Users)
-
-1. Get & add AWS credentials
-
-    1. Login to AWS Development via Onelogin
-
-    2. Change to the IAM service
-
-    3. Click on Users
-
-    4. Click Add User
-
-    5. Type in your user name as whatever your mesosphere email name is (e.g. bwood@mesosphere => bwood)
-
-    6. Tick the Programmatic Access checkbox and click Next:Permissions
-
-    7. Add the user to the Data Agility group and click Next:Review
-
-    8. Click Create User
-
-    9. Download or otherwise save your Access Key ID and Secret Key.
-
-        1. Note: You can't recover the secret if you lose it. But you can create a new access key pair if you need to
-
-        2. Do not share your secret key (the long one) with anyone. It is a secret ![image alt text](images/image_0.png).
-
-    10. Create the directory ~/.ssh
-
-    11. Within that directory, create a file called *aws-key.pem* with format:
-
-    aws_access_key_id = XXX
-
-    Aws_secret_access_key = XXX
-
-    12. Add ssh-add aws-key.pem to your bash profile so it runs every time you start up.
-
-2. Go to DCOS UI and launch new cluster. Change duration. Configure (at least) 1 public slave and any number of private slaves. The number of private slaves is the number of possible nodes who will be running your task. Launch. This takes several minutes. Once cluster has been launched, you get a nice slackbot notification & can click on "Dashboard" in the Mesos UI to see what’s up.
-
-3. Login to cluster: This is how you connect to your cluster. This is pretty important (done each time you launch a new cluster and want to connect to it).
-
-  1. Run
-```
-$ dcos config show
-```
-You should see the fields cluster.name, core.dcos_acs_token, core.dcos_url, and core.ssl_verify
-
-  2. Run
-```
-$ dcos config set cluster.name [cluster name]
-```
-where cluster name is the name of the active cluster found in CCM login & DCOS UI. Ex: atenjarla-f3wx4ths
-  3. Run
-
-```
-$ dcos config set core.dcos_url [url]
-```
-  Where url is the url of the DCOS UI page up until ….awsamazon.com/
-      4. Run
-
-```
-$ dcos config set core.ssl_verify false
-```
-    4. Auth login: This shouldn’t be necessary if you run Step #3. But, another way to verify you’re logged into your cluster is by running:
-```
-	$ dcos auth login
-```
-    5. With username: bootstrapuser and password: deleteme
-
-5. [Set up your S3 bucket](http://docs.aws.amazon.com/AmazonS3/latest/gsg/CreatingABucket.html)
-
-    1. For mesosphere internal, go to your onelogin dashboard -> AWS development -> services -> S3
-
-    2. Create a new bucket with your user name as your mesosphere email name (e.g. springle@mesosphere => springle)
 
 ### Local Development Environment
 
@@ -750,8 +676,6 @@ Connecting the framework to the Container Network Interface allows DC/OS to assi
 ```
 
 # Testing
-
-
 
 ## Unit Tests
 
