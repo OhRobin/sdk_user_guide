@@ -26,13 +26,13 @@ We recommend developing in a cloud environment, rather than a local environment.
 
 1. Get & add [AWS credentials](http://docs.aws.amazon.com/sdk-for-java/v1/developer-guide/credentials.html)
 
-  1. Create a file called *aws-key.pem* with format:
+    1. Create a file called *aws-key.pem* with format:
 
-    aws_access_key_id = XXX
+      aws_access_key_id = XXX
 
-    Aws_secret_access_key = XXX
+      Aws_secret_access_key = XXX
 
-  2. Add ssh-add aws-key.pem your bash profile so it runs every time you start up
+    2. Add ssh-add aws-key.pem your bash profile so it runs every time you start up
 
 5. Install DC/OS [Command Line Interface (CLI)] and point it to your cluster(https://dcos.io/docs/1.9/cli/install/)
 
@@ -768,3 +768,7 @@ shakedown --dcos-url=<your_cluster_url> -n <dcos user id> -w <dcos pw> -o all
 - **Problem**: Native build SHA1 mismatch or missing output
 
   **Solution**: `ln -s /usr/bin/sha1sum /usr/bin/shasum`
+
+- **Problem**: I am trying to launch multiple instances of a service in a single DC/OS cluster to pass the beta requirements. There are issues when I launch my framework with a configured service name.
+
+  **Solution**: Try removing special characters such as `.`, `__`, and `-` from the Service Name
