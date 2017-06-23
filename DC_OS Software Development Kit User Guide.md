@@ -753,14 +753,18 @@ shakedown --dcos-url=<your_cluster_url> -n <dcos user id> -w <dcos pw> -o all
 
 ### Quick Fixes
 
-**Problem**: python3 not installed on virtualbox
+- **Problem**: python3 not installed on virtualbox
 
-**Solution**: `sudo yum install python34`
+  **Solution**: `sudo yum install python34`
 
-**Problem**: packages aren’t installing correctly
+- **Problem**: packages aren’t installing correctly
 
-**Solution**: try using `pip3` instead of `pip`
+  **Solution**: try using `pip3` instead of `pip`
 
-**Problem**: cryptography package from Shakedown env (integration testing) won’t compile
+- **Problem**: cryptography package from Shakedown env (integration testing) won’t compile
 
-**Solution**: [https://github.com/pyca/cryptography/issues/2692](https://github.com/pyca/cryptography/issues/2692)  
+  **Solution**: [https://github.com/pyca/cryptography/issues/2692](https://github.com/pyca/cryptography/issues/2692)  
+
+- **Problem**: Native build SHA1 mismatch or missing output
+
+  **Solution**: `ln -s /usr/bin/sha1sum /usr/bin/shasum`
