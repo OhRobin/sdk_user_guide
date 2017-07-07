@@ -1,7 +1,5 @@
 # User Guide: DC/OS Software Development Kit
 
-[[TOC]]
-
 # Introduction
 
 The Software Development Kit (SDK) is a common set of library and tools for easy integration and automation of stateful services with [DC/OS](https://dcos.io/). Frameworks built with the SDK can be published in our [Universe](http://universe.dcos.io/#/) for customers to use. For those frameworks that meet the [beta service requirements](#beta-service-requirements), they will be put on the Universe beta program for customers to try in a production environment. For those frameworks that do not meet the requirements, they will be certified as community packages and can be used for product demos. The goal of the User Guide is to help developers in adding features to the framework, walking through design decisions, providing examples. DC/OS SDK is currently in alpha stage: it can run services, but APIs change regularly, and features are under active development.
