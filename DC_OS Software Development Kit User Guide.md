@@ -1,6 +1,7 @@
 # User Guide: DC/OS Software Development Kit
 
-[[TOC]]
+# Created by: [Robin Oh](https://github.com/ohrobin), [Sam Pringle](https://github.com/springle), and [Bo Hu](https://github.com/LakeCarrot)
+
 
 # Introduction
 
@@ -704,7 +705,45 @@ brew install gradle
 
 ## Integration Tests
 
-[Shakedown](https://github.com/dcos/shakedown) is a library that provides the majority of the functionality required to write integration tests is. Shakedown provides capabilities that make it easy to perform service operations such as install, uninstall, configuration update, software upgrade, rollback, and pod restart. [Shakedown API ](https://github.com/dcos/shakedown/blob/master/API.md)and Shakedown [SDK](https://github.com/mesosphere/dcos-commons/tree/master/testing)[ specific testing library](https://github.com/mesosphere/dcos-commons/tree/master/testing) are good reference points. Helloworld framework provides some example [tests](https://github.com/mesosphere/dcos-commons/tree/master/frameworks/helloworld/tests) that use the above mentioned libraries.
+[Shakedown](https://github.com/dcos/shakedown) is a library that provides the majority of the functionality required to write integration tests is. Shakedown provides capabilities that make it easy to perform service operations such as install, uninstall, configuration update, software upgrade, rollback, and pod restart. [Shakedown API ](https://github.com/dcos/shakedown/blob/master/API.md)and Shakedown [SDK](https://github.com/mesosphere/dcos-commons/tree/master/testing)[specific testing library](https://github.com/mesosphere/dcos-commons/tree/master/testing) are good reference points. Helloworld framework provides some example [tests](https://github.com/mesosphere/dcos-commons/tree/master/frameworks/helloworld/tests) that use the above mentioned libraries.
+
+#### Example Integration Test
+
+For example, suppose we want to test whether hosts have unique ip for our service. We specify in `config.py` the default configuration that we wish to have. In our example test, we use CockroachDB to specify `config.py` as following:
+
+```
+PACKAGE_NAME = 'cockroachdb'
+SERVICE_NAME = 'cockroachdb'
+DEFAULT_TASK_COUNT = 3
+DEFAULT_POD_TYPE = 'cockroachdb'
+DEFAULT_TASK_NAME = 'node'
+```
+
+Then in test_basics.py, we import the following.
+```
+import pytest
+import shakedown
+
+from tests.config import (
+    PACKAGE_NAME,
+    DEFAULT_TASK_COUNT,
+    DEFAULT_POD_TYPE,
+    DEFAULT_TASK_NAME,
+    SERVICE_NAME
+)
+```
+
+Then we have the following, but tag the tests as `sanity` for easier debugging.
+
+```
+@pytest.mark.sanity
+def test_unique_hosts():
+    service_ips = shakedown.get_service_ips(SERVICE_NAME)
+    print("service_ips: " + str(service_ips))
+    assert len(service_ips) == len(set(service_ips))
+```
+
+We then call `shakedown --dcos-url=<your-cluster-url> -n <username> -w <password> -o fail` for easier debugging during the shakedown tests
 
 ### Prerequisites
 
