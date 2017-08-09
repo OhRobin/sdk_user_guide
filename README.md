@@ -1,6 +1,6 @@
 # User Guide: DC/OS Software Development Kit
 
-# Created by: [Robin Oh](https://github.com/ohrobin), [Sam Pringle](https://github.com/springle), and [Bo Hu](https://github.com/LakeCarrot)
+### Created by: [Robin Oh](https://github.com/ohrobin), [Sam Pringle](https://github.com/springle), and [Bo Hu](https://github.com/LakeCarrot)
 
 
 # Introduction
@@ -630,7 +630,7 @@ Connecting the framework to the Container Network Interface allows DC/OS to assi
 	    networks:
 	      dcos:
 	    {{/ENABLE_VIRTUAL_NETWORK}}
-	``` 
+	```
 3. Allow for toggling of virtual network in `marathon.json.mustache` as an environment variable
 
 	```
