@@ -69,6 +69,7 @@ git clone https://github.com/mesosphere/dcos-commons/
 6. To build, run `./build.sh <aws | local>`. If using AWS, make sure your credentials are set as environment variables (`AWS_ACCESS_KEY_ID` and `AWS_SECRET_ACCESS_KEY`) and that you have your [S3 bucket set up](http://docs.aws.amazon.com/AmazonS3/latest/gsg/CreatingABucket.html). If using local, make sure you have a local DCOS cluster running.
 
 7. After it finishes running, the build script will print instructions for installing/uninstalling your package on DCOS. Please follow instructions to install. It should look similar to the following:
+
 ```
 (Re)install your package using the following commands:
 dcos package uninstall <framework name>
@@ -104,35 +105,26 @@ In order for a framework to be Mesosphere certified and enroll in the Beta progr
 
 ## Adding Features
 
-### Exposing the CLI
+### Expanding the CLI
 
 Once you have created the template for your framework using
 
 `./new-framework.sh` you will notice that you have file `main.go`  under
-`/dcos-commons/framework/<your-framework>/cli/dcos-<your-framework>`. This file should contain a template file such as the following:
+`/dcos-commons/framework/<your-framework>/cli/dcos-<your-framework>/`. This file should contain a template file such as the following:
 
 ```
-
 package main
 
 import (
-
 	"github.com/mesosphere/dcos-commons/cli"
-
 	"gopkg.in/alecthomas/kingpin.v2"
-
 )
 
 func main() {
-
 	app := cli.New()
-
 	cli.HandleDefaultSections(app)
-
 	kingpin.MustParse(app.Parse(cli.GetArguments()))
-
 }
-
 ```
 
 In order to expose the CLI commands, you will be writing in Go. [CLI documentation](https://github.com/mesosphere/dcos-commons/tree/master/cli) is a great reference point.
@@ -146,63 +138,37 @@ However, we wish reduce the above command and allow the user to call, `dcos cock
 A `runDcosCommand` helper function to process the command line arguments
 
 ```
-
 func runDcosCommand(arg ...string) {
-
 	cmd := exec.Command("dcos", arg...)
-
-	cmd.Stdin = os.Stdin
-
-	cmd.Stdout = os.Stdout
-
-	cmd.Stderr = os.Stderr
-
 	err := cmd.Run()
-
 	if err != nil {
-
-		fmt.Printf("[err] %s\n", err)
-
+		fmt.Printf("[Error] %s\n\n", err)
+		fmt.Printf("Unable to run DC/OS command: %s\n", strings.Join(arg, " "))
+		fmt.Printf("Make sure your PATH includes the 'dcos' executable.\n")
 	}
-
 }
-
 ```
 
 A `version` function that will call the equivalent of `dcos task exec -it cockroachdb-0-node-init ./cockroach version`
 
 ```
-
 func version(c *kingpin.ParseContext) error {
-
+	cockroachTask := fmt.Sprintf("%s-1-node-join", cli.config.ServiceName)
 	runDcosCommand("task",
-
 			"exec",
-
-			"-it",
-
-			"cockroachdb-0-node-init",
-
+			cockroachTask,
 			"./cockroach",
-
 			"version")
-
 	return nil
-
 }
-
 ```
 
 A `handleCockroachSection` that describes the command in the CLI. Here, you may add additional CLI arguments that are specific to your framework’s needs.
 
 ```
-
 func handleCockroachSection(app *kingpin.Application) {
-
 	app.Command("version", "Output CockroachDB version and dependency details").Action(version)
-
 }
-
 ```
 
 Once you add `handleCockroachSection(app)` to the `main()` function, we have integrated CockroachDB CLI with DC/OS CLI for a single command.
@@ -655,33 +621,23 @@ If that is not possible, one could create a lightweight sidecar to periodically 
 
 Connecting the framework to the Container Network Interface allows DC/OS to assign Virtual IPs to each container, and provides an easy networking abstraction layer. To connect the framework to the CNI,
 
-1. Set the [virtual network](https://github.com/mesosphere/dcos-commons/blob/master/frameworks/template/universe/config.json#L60) in the `config.json` as true
+1. Set the [virtual network](https://github.com/mesosphere/dcos-commons/blob/master/frameworks/template/universe/config.json#L60) in the `config.json` as false
 
 2. Allow for toggle of the virtual network in `svc.yml`
 
-```
+	```
+	    {{#ENABLE_VIRTUAL_NETWORK}}
+	    networks:
+	      dcos:
+	    {{/ENABLE_VIRTUAL_NETWORK}}
+	``` 
+3. Allow for toggling of virtual network in `marathon.json.mustache` as an environment variable
 
-    {{#ENABLE_VIRTUAL_NETWORK}}
-
-    networks:
-
-      dcos:
-
-    {{/ENABLE_VIRTUAL_NETWORK}}
-
-```
-
-3. Allow for toggling of virtual network in `marathon.json.mustache`
-
-```
-
-    {{#service.virtual_network}}
-
-    "ENABLE_VIRTUAL_NETWORK": "yes",
-
-    {{/service.virtual_network}}
-
-```
+	```
+	    {{#service.virtual_network}}
+	    "ENABLE_VIRTUAL_NETWORK": "yes",
+	    {{/service.virtual_network}}
+	```
 
 # Testing
 
@@ -691,9 +647,9 @@ Connecting the framework to the Container Network Interface allows DC/OS to assi
 
 1. Have gradle installed on your computer.
 
-```
-brew install gradle
-```
+	```
+	brew install gradle
+	```
 
 2. Confirm that you have [Junit](http://junit.org/junit4/) properly configured in your machine
 
